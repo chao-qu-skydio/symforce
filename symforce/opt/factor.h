@@ -13,6 +13,7 @@
 #include <lcmtypes/sym/linearized_dense_factor_t.hpp>
 #include <lcmtypes/sym/linearized_dense_factorf_t.hpp>
 
+#include "./factor_keys.h"
 #include "./templates.h"
 #include "./values.h"
 
@@ -259,10 +260,12 @@ class Factor {
   bool is_sparse_;
 
   // Keys to be optimized in this factor, which must match the column order of the jacobian.
-  std::vector<Key> keys_to_optimize_;
+  //   std::vector<Key> keys_to_optimize_;
 
   // All keys required to evaluate the factor
-  std::vector<Key> keys_;
+  //   std::vector<Key> keys_;
+
+  FactorKeys factor_keys_;
 
   // Index entries for the above keys, cached to avoid repeated unordered_map lookups.
   // Values ID are used to detect structure changes.

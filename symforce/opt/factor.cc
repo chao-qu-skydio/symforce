@@ -123,12 +123,12 @@ typename Factor<Scalar>::LinearizedDenseFactor Factor<Scalar>::Linearize(
 
 template <typename Scalar>
 const std::vector<Key>& Factor<Scalar>::OptimizedKeys() const {
-  return keys_to_optimize_;
+  return factor_keys_.OptimizedKeys();
 }
 
 template <typename Scalar>
 const std::vector<Key>& Factor<Scalar>::AllKeys() const {
-  return keys_;
+  return factor_keys_.AllKeys();
 }
 
 template <typename ScalarType>
@@ -142,8 +142,8 @@ void Factor<ScalarType>::EnsureIndexEntriesExist(const Values<Scalar>& values) c
   // clear the cached value if a different Values object is used.
   auto& cached_index_entries_ = values_id_and_index_entries_.second;
   cached_index_entries_.clear();
-  cached_index_entries_.reserve(keys_.size());
-  for (const auto& key : keys_) {
+  cached_index_entries_.reserve(factor_keys_.NumKeys());
+  for (const auto& key : factor_keys_.AllKeys()) {
     cached_index_entries_.push_back(values.IndexEntryAt(key));
   }
   values_id_and_index_entries_.first = values.Id();
@@ -155,7 +155,7 @@ void Factor<Scalar>::FillLinearizedFactorIndex(const Values<Scalar>& values,
                                                LinearizedFactorT& linearized_factor) const {
   if (linearized_factor.index.storage_dim == 0) {
     // Set the types and everything from the index
-    linearized_factor.index = values.CreateIndex(keys_to_optimize_);
+    linearized_factor.index = values.CreateIndex(OptimizedKeys());
 
     // But the offset we want is within the factor
     int32_t offset = 0;
