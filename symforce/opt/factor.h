@@ -116,10 +116,8 @@ class Factor {
    *   keys_to_optimize: The set of input arguments that correspond to the derivative in func. Must
    *                     be a subset of keys_to_func.
    */
-  Factor(DenseHessianFunc hessian_func, const std::vector<Key>& keys_to_func,
-         const std::vector<Key>& keys_to_optimize = {});
-  Factor(SparseHessianFunc hessian_func, const std::vector<Key>& keys_to_func,
-         const std::vector<Key>& keys_to_optimize = {});
+  Factor(DenseHessianFunc hessian_func, FactorKeys factor_keys);
+  Factor(SparseHessianFunc hessian_func, FactorKeys factor_keys);
 
   /**
    * Does this factor use a sparse jacobian/hessian matrix?

@@ -13,6 +13,7 @@
  */
 
 #include "../factor.h"
+#include "../factor_keys.h"
 
 namespace sym {
 namespace internal {
@@ -141,7 +142,7 @@ Factor<Scalar> JacobianDynamic(Functor&& func, const std::vector<Key>& keys_to_f
           CalculateHessianRhs(*residual, *jacobian, hessian, rhs);
         }
       },
-      keys_to_func, keys_to_optimize);
+      {keys_to_func, keys_to_optimize});
 }
 
 /** Specialize the dispatch mechanism */
@@ -205,7 +206,7 @@ Factor<Scalar> JacobianFixed(Functor&& func, const std::vector<Key>& keys_to_fun
 
         (*residual) = residual_fixed;
       },
-      keys_to_func, keys_to_optimize);
+      {keys_to_func, keys_to_optimize});
 }
 
 /** Specialize the dispatch mechanism */
@@ -301,7 +302,7 @@ Factor<Scalar> HessianDynamic(Functor&& func, const std::vector<Key>& keys_to_fu
         HessianFuncValuesExtractor<Scalar, FunctorType>::Invoke(func, values, keys_to_func,
                                                                 residual, jacobian, hessian, rhs);
       },
-      keys_to_func, keys_to_optimize);
+      {keys_to_func, keys_to_optimize});
 }
 
 /** Specialize the dispatch mechanism */
@@ -360,7 +361,7 @@ Factor<Scalar> HessianFixedDense(Functor&& func, const std::vector<Key>& keys_to
           (*rhs) = rhs_fixed;
         }
       },
-      keys_to_func, keys_to_optimize);
+      {keys_to_func, keys_to_optimize});
 }
 
 /** Specialize the dispatch mechanism */
@@ -407,7 +408,7 @@ Factor<Scalar> HessianFixedSparse(Functor&& func, const std::vector<Key>& keys_t
           (*rhs) = rhs_fixed;
         }
       },
-      keys_to_func, keys_to_optimize);
+      {keys_to_func, keys_to_optimize});
 }
 
 /** Specialize the dispatch mechanism */

@@ -14,6 +14,7 @@
 
 #include "./gen/keys.h"
 #include "./gen/snavely_reprojection_factor.h"
+#include "symforce/opt/factor_keys.h"
 
 using namespace sym::Keys;
 
@@ -39,6 +40,18 @@ sym::Factord MakeFactor(int camera, int point, int pixel) {
                                    sym::Key::WithSuper(POINT, point),
                                });
 }
+
+// sym::Factord MakeFactor(int camera, int point, int pixel) {
+//   return sym::Factord::Hessian(
+//       sym::SnavelyReprojectionFactor<double>,
+//       {
+//           {sym::Key::WithSuper(CAM_T_WORLD, camera), sym::FactorKeyType::OPTIMIZE},
+//           {sym::Key::WithSuper(INTRINSICS, camera), sym::FactorKeyType::OPTIMIZE},
+//           {sym::Key::WithSuper(POINT, point), sym::FactorKeyType::OPTIMIZE},
+//           sym::Key::WithSuper(PIXEL, pixel),
+//           EPSILON,
+//       });
+// }
 
 /**
  * A struct to represent the problem definition

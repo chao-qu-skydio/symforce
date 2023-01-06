@@ -7,7 +7,7 @@
 
 namespace sym {
 
-enum class FactorKeyType { OPTIMIZE, FIX };
+enum class FactorKeyType { FIX, OPTIMIZE };
 
 struct FactorKey {
   Key key;
@@ -16,7 +16,7 @@ struct FactorKey {
   FactorKey() = default;
   // Default type to OPTIMIZE, this is to be compatible with previous API
   // If you don't specify the type, the key is optimizable.
-  FactorKey(Key key, FactorKeyType type = FactorKeyType::OPTIMIZE) : key(key), type(type) {}
+  FactorKey(Key key, FactorKeyType type = FactorKeyType::FIX) : key(key), type(type) {}
 };
 
 class FactorKeys {
@@ -27,9 +27,11 @@ class FactorKeys {
  public:
   // Constructor
   FactorKeys() = default;
+
   // This exists only for compatibility reason, want to kill it later on
   FactorKeys(const std::vector<Key>& keys, const std::vector<Key>& keys_to_opt)
       : keys_(keys), optimized_keys_(keys_to_opt.empty() ? keys_ : keys_to_opt) {}
+
   // This should be the one we use
   FactorKeys(std::initializer_list<FactorKey> factor_keys);
 

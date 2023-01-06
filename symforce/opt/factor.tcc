@@ -6,28 +6,21 @@
 #include "./assert.h"
 #include "./factor.h"
 #include "./internal/factor_utils.h"
+#include "symforce/opt/factor_keys.h"
 
 namespace sym {
 
 template <typename Scalar>
-Factor<Scalar>::Factor(DenseHessianFunc hessian_func, const std::vector<Key>& keys_to_func,
-                       const std::vector<Key>& keys_to_optimize)
+Factor<Scalar>::Factor(DenseHessianFunc hessian_func, FactorKeys factor_keys)
     : hessian_func_(std::move(hessian_func)),
-      sparse_hessian_func_(),
       is_sparse_(false),
-      // keys_to_optimize_(keys_to_optimize.empty() ? keys_to_func : keys_to_optimize),
-      // keys_(keys_to_func),
-      factor_keys_(keys_to_func, keys_to_optimize) {}
+      factor_keys_(std::move(factor_keys)) {}
 
 template <typename Scalar>
-Factor<Scalar>::Factor(SparseHessianFunc sparse_hessian_func, const std::vector<Key>& keys_to_func,
-                       const std::vector<Key>& keys_to_optimize)
-    : hessian_func_(),
-      sparse_hessian_func_(std::move(sparse_hessian_func)),
+Factor<Scalar>::Factor(SparseHessianFunc sparse_hessian_func, FactorKeys factor_keys)
+    : sparse_hessian_func_(std::move(sparse_hessian_func)),
       is_sparse_(true),
-      // keys_to_optimize_(keys_to_optimize.empty() ? keys_to_func : keys_to_optimize),
-      // keys_(keys_to_func),
-      factor_keys_(keys_to_func, keys_to_optimize) {}
+      factor_keys_(std::move(factor_keys)) {}
 
 // ------------------------------------------------------------------------------------------------
 // Factor::Jacobian constructor
