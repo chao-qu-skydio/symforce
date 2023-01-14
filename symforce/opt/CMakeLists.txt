@@ -7,6 +7,9 @@
 # Third Party Dependencies
 # ==============================================================================
 
+find_package(absl REQUIRED)
+find_package(benchmark REQUIRED)
+
 include(FetchContent)
 
 # ------------------------------------------------------------------------------
@@ -150,6 +153,7 @@ target_link_libraries(symforce_opt
   fmt::fmt
   spdlog::spdlog
   tl::optional
+  absl::flat_hash_map
   ${SYMFORCE_EIGEN_TARGET}
 )
 
@@ -161,6 +165,8 @@ if(SYMFORCE_CUSTOM_TIC_TOCS)
   )
 endif(SYMFORCE_CUSTOM_TIC_TOCS)
 
+add_executable(values_bench values_bench.cc)
+target_link_libraries(values_bench PUBLIC symforce_opt benchmark::benchmark benchmark::benchmark_main)       
 
 # ------------------------------------------------------------------------------
 # install
