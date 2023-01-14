@@ -8,12 +8,15 @@
 #include <atomic>
 #include <unordered_map>
 
+#include <absl/container/flat_hash_map.h>
+
 #include <lcmtypes/sym/values_t.hpp>
 #include <lcmtypes/sym/valuesf_t.hpp>
 
 #include <sym/util/type_ops.h>
 
 #include "./key.h"
+// #include "./unordered_dense.h"
 
 namespace sym {
 
@@ -30,7 +33,9 @@ struct ValuesLcmTypeHelper;
 template <typename Scalar>
 class Values {
  public:
-  using MapType = std::unordered_map<Key, index_entry_t>;
+  //   using MapType = std::unordered_map<Key, index_entry_t>;
+  using MapType = absl::flat_hash_map<Key, index_entry_t>;
+  //   using MapType = ankerl::unordered_dense::map<Key, index_entry_t>;
   using ArrayType = std::vector<Scalar>;
 
   // Expose the correct LCM type (values_t or valuesf_t)
